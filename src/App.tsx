@@ -67,7 +67,7 @@ export default function App() {
             Framr is the multi-agent AI platform that turns ideas into action.
           </motion.p>
 
-          <div className="w-full max-w-2xl mx-auto -mt-2">
+          <div className="w-full max-w-2xl mx-auto -mt-4">
             <PromptBar />
           </div>
         </div>
