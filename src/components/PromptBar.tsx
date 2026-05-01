@@ -60,18 +60,18 @@ export function PromptBar() {
       initial={{ opacity: 0, scale: 0.96 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 0.9, duration: 0.6 }}
-      className="relative w-full max-w-[720px] mx-auto group"
+      className="relative w-full max-w-2xl mx-auto group"
       id="prompt-bar-container"
     >
       {/* Floating Glow */}
-      <div className={`absolute -inset-1 bg-sky-400/20 blur-2xl transition-opacity rounded-[24px] pointer-events-none ${isFocused ? 'opacity-100' : 'opacity-0 group-hover:opacity-40'} animate-[pulse_4s_infinite]`} />
-      <div className={`absolute inset-0 shadow-[0_0_80px_rgba(56,189,248,0.25)] rounded-[24px] pointer-events-none transition-opacity ${isFocused ? 'opacity-100' : 'opacity-0'}`} />
+      <div className="hidden" />
+      <div className="hidden" />
       
-      <div className={`relative bg-white border rounded-[24px] p-4 shadow-sm transition-all duration-300 ${isFocused ? 'border-sky-400 ring-4 ring-sky-50' : 'border-zinc-200'}`}>
+      <div className={`relative bg-white border border-[#E5E7EB] rounded-3xl p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(0,0,0,0.06)] transition-all duration-200 ${isFocused ? 'border-neutral-900 ring-4 ring-black/5' : 'border-[#E5E7EB]'}`}>
         <div className="relative">
           <textarea
             ref={textareaRef}
-            className="w-full bg-transparent border-none focus:ring-0 text-xl font-medium placeholder:text-transparent min-h-[60px] max-h-[200px] resize-none outline-none overflow-hidden relative z-10"
+            className="w-full bg-transparent border-none focus:ring-0 text-xl font-medium placeholder:text-neutral-400 min-h-[60px] max-h-[200px] resize-none outline-none overflow-hidden relative z-10"
             value={prompt}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
@@ -96,7 +96,7 @@ export function PromptBar() {
               animate={{ opacity: prompt ? 0.08 : 0.3, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
-              className="absolute top-0 left-0 pointer-events-none text-xl font-medium text-zinc-900 z-0"
+              className="absolute top-0 left-0 pointer-events-none text-xl font-medium text-neutral-400 z-0"
             >
               {placeholders[placeholderIndex]}
             </motion.div>
@@ -134,7 +134,7 @@ export function PromptBar() {
                   initial={{ opacity: 0, y: 10, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                  className="absolute bottom-full right-0 mb-2 w-56 bg-white border border-zinc-200 rounded-2xl shadow-2xl overflow-hidden z-50 p-1"
+                  className="absolute bottom-full right-0 mb-2 w-56 bg-white border border-zinc-200 rounded-3xl shadow-2xl overflow-hidden z-50 p-1"
                 >
                   {models.map((model) => (
                     <button

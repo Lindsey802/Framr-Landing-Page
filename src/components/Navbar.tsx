@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, ChevronDown } from 'lucide-react';
-import { Logo } from './Logo';
+import { FramrLogo } from './brand/FramrLogo';
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -53,7 +53,7 @@ export function Navbar() {
   return (
     <nav className={`navbar transition-all duration-300 ${scrolled ? 'py-0' : 'py-1'}`}>
       <div className="navbar-container">
-        <Logo height={isMobile ? 26 : 32} />
+        <a href="/" className="flex items-center gap-2.5"><FramrLogo size={isMobile ? 26 : 28} className="shrink-0" /><span className="text-sm font-medium tracking-tight text-black">Framr</span></a>
         
         {/* Desktop links */}
         <ul className="navbar-links hidden md:flex items-center">
