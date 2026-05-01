@@ -1,5 +1,3 @@
-import Image from 'next/image';
-
 type LogoProps = {
   size?: number;
   variant?: 'black' | 'white';
@@ -8,18 +6,20 @@ type LogoProps = {
   priority?: boolean;
 };
 
-export const Logo = ({ size = 24, variant = 'black', className = '', alt = 'Framr', priority = false }: LogoProps) => {
+export const Logo = ({ size = 24, variant = 'black', className = '', alt = 'Framr' }: LogoProps) => {
   const src = variant === 'white' ? '/logo-white.png' : '/logo.png';
 
   return (
-    <Image
+    <img
       src={src}
       width={size}
       height={size}
       alt={alt}
-      priority={priority}
       className={`object-contain ${className}`}
       style={{ imageRendering: 'auto' }}
+      loading="eager"
+      decoding="async"
+      draggable={false}
     />
   );
 };
