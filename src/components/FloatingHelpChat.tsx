@@ -189,7 +189,7 @@ export function FloatingHelpChat() {
                     <ArrowUp size={16} />
                   </button>
                 </div>
-                <p className="mt-2 text-center text-[10px] text-neutral-400">Powered by gpt-oss-120b</p>
+                <p className="mt-2 text-center text-[10px] text-neutral-400">Powered by Framr AI</p>
               </div>
             </div>
           </motion.div>

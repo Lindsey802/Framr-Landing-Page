@@ -1,4 +1,7 @@
-import { NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import OpenAI from 'openai';
+
+export const runtime = 'nodejs';
 
 const SYSTEM_PROMPT = `You are Framr Assistant — the in-product guide for Framr, a multi-agent AI platform.
 
@@ -10,55 +13,61 @@ About Framr:
 Your role:
 - Guide users on how to use Framr: creating agents, connecting integrations, configuring workflows, debugging runs, understanding pricing and features.
 - Be concise, friendly, and practical. Prefer short answers with clear next steps.
-- When relevant, point to specific sections (Features, Use Cases, Integrations, Pricing) or suggest concrete actions inside the product.
 - If asked about design/frame generation, gently clarify: "Framr is a multi-agent platform — it orchestrates AI agents, not visual designs."
-- If asked something fully unrelated, redirect kindly back to Framr.
+- If asked something fully unrelated, redirect kindly back to Framr.`;
 
-Tone: direct, helpful, on-brand. No fluff. No emojis.`;
+const client = new OpenAI({
+  apiKey: process.env.NVIDIA_NIM_API_KEY,
+  baseURL: process.env.NVIDIA_NIM_BASE_URL ?? 'https://integrate.api.nvidia.com/v1',
+});
 
 export async function POST(req: NextRequest) {
   try {
-    const { messages } = await req.json();
+    const { prompt, messages } = await req.json();
 
-    if (!Array.isArray(messages)) {
-      return new Response('Invalid payload', { status: 400 });
+    if (!prompt && !messages) {
+      return NextResponse.json({ error: 'prompt or messages required' }, { status: 400 });
     }
 
-    const apiKey = process.env.NVIDIA_NIM_API_KEY;
-    if (!apiKey) {
-      return new Response('Missing NVIDIA_NIM_API_KEY', { status: 500 });
-    }
+    const chatMessages =
+      messages ??
+      [
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user', content: prompt },
+      ];
 
-    const upstream = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'openai/gpt-oss-120b',
-        stream: true,
-        temperature: 0.7,
-        top_p: 1,
-        max_tokens: 1024,
-        messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...messages],
-      }),
+    const stream = await client.chat.completions.create({
+      model: process.env.NVIDIA_NIM_MODEL ?? 'openai/gpt-oss-120b',
+      messages: Array.isArray(chatMessages) ? chatMessages : [{ role: 'user', content: String(prompt) }],
+      temperature: 0.7,
+      top_p: 0.95,
+      max_tokens: 2048,
+      stream: true,
     });
 
-    if (!upstream.ok || !upstream.body) {
-      const text = await upstream.text();
-      return new Response(text || 'Upstream request failed', { status: upstream.status || 500 });
-    }
+    const encoder = new TextEncoder();
+    const readable = new ReadableStream({
+      async start(controller) {
+        try {
+          for await (const chunk of stream) {
+            const token = chunk.choices?.[0]?.delta?.content ?? '';
+            if (token) controller.enqueue(encoder.encode(token));
+          }
+          controller.close();
+        } catch (error) {
+          controller.error(error);
+        }
+      },
+    });
 
-    return new Response(upstream.body, {
-      status: 200,
+    return new Response(readable, {
       headers: {
-        'Content-Type': 'text/event-stream; charset=utf-8',
+        'Content-Type': 'text/plain; charset=utf-8',
         'Cache-Control': 'no-cache, no-transform',
-        Connection: 'keep-alive',
+        'X-Accel-Buffering': 'no',
       },
     });
-  } catch {
-    return new Response('Server error', { status: 500 });
+  } catch (err: any) {
+    return NextResponse.json({ error: err?.message ?? 'Internal error' }, { status: 500 });
   }
 }
