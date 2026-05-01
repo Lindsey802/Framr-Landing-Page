@@ -1,6 +1,5 @@
 import { motion } from 'motion/react';
 import { Navbar } from './components/Navbar';
-import { Logo } from './components/Logo';
 import { PromptBar } from './components/PromptBar';
 import { LogoMarquee } from './components/LogoMarquee';
 import { OnyxPlatform } from './components/OnyxPlatform';
@@ -9,6 +8,7 @@ import { UseCasesSection } from './components/UseCasesSection';
 import { IntegrationsSection } from './components/IntegrationsSection';
 import { TestimonialsSection } from './components/TestimonialsSection';
 import { Footer } from './components/Footer';
+import { FloatingHelpChat } from './components/FloatingHelpChat';
 
 export default function App() {
   return (
@@ -80,21 +80,7 @@ export default function App() {
 
       <Footer />
 
-      <motion.button
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 1.5 }}
-        className="fixed bottom-8 right-8 w-14 h-14 bg-black text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-90 transition-all z-50 group"
-        id="floating-help"
-      >
-        <span className="absolute -top-12 right-0 bg-white text-black border border-zinc-200 px-3 py-1.5 rounded-lg text-xs font-semibold shadow-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-          How can we help?
-        </span>
-        <div className="relative">
-          <span className="absolute inset-0 bg-white/20 blur-sm rounded-full animate-ping" />
-          <Logo height={20} className="transform -rotate-12 group-hover:rotate-0 transition-transform" />
-        </div>
-      </motion.button>
+      <FloatingHelpChat />
 
       <div className="fixed top-0 left-1/4 w-[500px] h-[500px] bg-blue-50/50 rounded-full blur-[120px] -z-10 pointer-events-none" />
       <div className="fixed bottom-0 right-1/4 w-[400px] h-[400px] bg-sky-50/50 rounded-full blur-[100px] -z-10 pointer-events-none" />
