@@ -40,7 +40,7 @@ export default function App() {
               initial={{ clipPath: 'inset(0 100% 0 0)' }}
               animate={{ clipPath: 'inset(0 0% 0 0)' }}
               transition={{ delay: 0.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[clamp(56px,7vw,96px)] font-semibold leading-[1.02] tracking-[-0.04em] text-black block"
+              className="text-[clamp(56px,7vw,96px)] font-medium leading-[1.02] tracking-[-0.04em] text-black block"
               id="hero-title-1"
             >
               Frame anything.
@@ -49,7 +49,7 @@ export default function App() {
               initial={{ clipPath: 'inset(0 100% 0 0)' }}
               animate={{ clipPath: 'inset(0 0% 0 0)' }}
               transition={{ delay: 0.5, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="text-[clamp(56px,7vw,96px)] font-semibold leading-[1.02] tracking-[-0.04em] text-black block"
+              className="text-[clamp(56px,7vw,96px)] font-medium leading-[1.02] tracking-[-0.04em] text-black block"
               id="hero-title-2"
             >
               Ship in seconds.
@@ -67,7 +67,7 @@ export default function App() {
             Framr is the multi-agent AI platform that turns ideas into action.
           </motion.p>
 
-          <div className="w-full max-w-2xl mx-auto -mt-4">
+          <div className="w-full max-w-2xl mx-auto -mt-6">
             <PromptBar />
           </div>
         </div>
