@@ -2,7 +2,7 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", "Neue Haas Grotesk Display Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-sans: "Neue Haas Grotesk Display Pro", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
@@ -14,10 +14,10 @@
 
 @layer utilities {
   .bg-grid {
-    background-size: 80px 80px;
+    background-size: 48px 48px;
     background-image: 
-      linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+      linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
   }
 
   @keyframes marquee {
@@ -45,9 +45,11 @@
 
 /* Navbar Base Styles */
 .navbar {
-  position: sticky;
+  position: absolute;
   top: 0;
-  z-index: 50;
+  left: 0;
+  right: 0;
+  z-index: 20;
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid #ECECEC;
