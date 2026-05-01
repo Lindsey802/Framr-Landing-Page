@@ -60,7 +60,7 @@ export function PromptBar() {
       initial={{ opacity: 0, scale: 0.96 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 0.9, duration: 0.6 }}
-      className="relative w-full max-w-[720px] mx-auto group"
+      className="relative w-full max-w-2xl mx-auto group"
       id="prompt-bar-container"
     >
       {/* Floating Glow */}
