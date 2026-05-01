@@ -1,38 +1,25 @@
-import React, { useState } from 'react';
-
 type LogoProps = {
+  size?: number;
+  variant?: 'black' | 'white';
   className?: string;
-  height?: number;
-  href?: string;
-  invert?: boolean;
+  alt?: string;
+  priority?: boolean;
 };
 
-export const Logo = ({ className = "", height = 32, href = "/", invert = false }: LogoProps) => {
-  const [failed, setFailed] = useState(false);
+export const Logo = ({ size = 24, variant = 'black', className = '', alt = 'Framr' }: LogoProps) => {
+  const src = variant === 'white' ? '/logo-white.png' : '/logo.png';
 
-  const img = failed ? (
-    <span className={`text-xl font-bold tracking-tight ${invert ? 'text-white' : 'text-black'} ${className}`}>
-      Framr
-    </span>
-  ) : (
+  return (
     <img
-      src="/framr-logo.png"
-      alt="Framr"
-      style={{ height: `${height}px`, width: "auto" }}
-      className={`object-contain select-none ${invert ? 'brightness-0 invert' : ''} ${className}`}
-      onError={() => setFailed(true)}
+      src={src}
+      width={size}
+      height={size}
+      alt={alt}
+      className={`object-contain ${className}`}
+      style={{ imageRendering: 'auto' }}
+      loading="eager"
+      decoding="async"
       draggable={false}
-      referrerPolicy="no-referrer"
     />
   );
-  
-  if (href) {
-    return (
-      <a href={href} className="flex items-center">
-        {img}
-      </a>
-    );
-  }
-  
-  return img;
 };
