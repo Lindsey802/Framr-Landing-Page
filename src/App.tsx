@@ -12,7 +12,7 @@ import { FloatingHelpChat } from './components/FloatingHelpChat';
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-white selection:bg-sky-100 selection:text-sky-900 overflow-x-hidden" id="app-root">
+    <div className="min-h-screen bg-white selection:bg-sky-100 selection:text-sky-900 overflow-x-hidden pt-[72px]" id="app-root">
       <Navbar />
 
       {/* Hero Section */}
