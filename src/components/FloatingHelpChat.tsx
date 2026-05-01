@@ -1,3 +1,4 @@
+import { Logo } from "./Logo";
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, ArrowUp } from 'lucide-react';
@@ -79,7 +80,7 @@ export function FloatingHelpChat() {
             <div className="flex h-full flex-col">
               <div className="flex h-16 items-center justify-between border-b border-neutral-100 px-5">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-black text-xs font-medium text-white">F</div>
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-neutral-100"><Logo size={20} alt="" /></div>
                   <div>
                     <div className="flex items-center gap-2">
                       <p className="text-sm font-medium text-neutral-900">Framr Assistant</p>
@@ -101,7 +102,7 @@ export function FloatingHelpChat() {
               <div className="group flex-1 space-y-4 overflow-y-auto px-5 py-6 [scrollbar-width:thin] [scrollbar-color:transparent_transparent] hover:[scrollbar-color:#e5e5e5_transparent]">
                 {messages.length === 0 ? (
                   <div className="flex h-full flex-col items-center justify-center text-center">
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-black text-lg font-medium text-white">F</div>
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center"><Logo size={40} alt="" /></div>
                     <p className="text-base font-medium text-neutral-900">Hi, I&apos;m Framr</p>
                     <p className="mt-1 max-w-[260px] text-sm text-neutral-500">Ask me about features, pricing, or how to ship faster.</p>
                     <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
@@ -203,11 +204,21 @@ export function FloatingHelpChat() {
           e.stopPropagation();
           setOpen((v) => !v);
         }}
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-black text-white shadow-2xl transition-transform hover:scale-105"
+        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full border border-[rgba(0,0,0,0.08)] bg-white text-neutral-700 shadow-[0_1px_2px_rgba(0,0,0,0.06),0_8px_24px_rgba(0,0,0,0.12),0_16px_40px_-8px_rgba(0,0,0,0.15)] transition-all duration-200 ease-out hover:scale-105 hover:shadow-[0_2px_4px_rgba(0,0,0,0.08),0_12px_32px_rgba(0,0,0,0.16),0_20px_48px_-8px_rgba(0,0,0,0.2)] active:scale-95 focus-visible:ring-4 focus-visible:ring-black/10 focus-visible:ring-offset-2"
         id="floating-help"
-        aria-label="Open chat"
+        aria-label={open ? "Close Framr assistant" : "Open Framr assistant"}
       >
-        <span className="h-2.5 w-2.5 rounded-full bg-white" />
+        <AnimatePresence mode="wait">
+          {open ? (
+            <motion.span key="x" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} transition={{ duration: 0.15 }}>
+              <X size={20} />
+            </motion.span>
+          ) : (
+            <motion.span key="logo" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} transition={{ duration: 0.15 }}>
+              <Logo size={28} variant="black" alt="" />
+            </motion.span>
+          )}
+        </AnimatePresence>
       </button>
     </>
   );

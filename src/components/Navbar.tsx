@@ -53,7 +53,7 @@ export function Navbar() {
   return (
     <nav className={`navbar absolute top-0 left-0 right-0 z-20 transition-all duration-300 ${scrolled ? 'py-0' : 'py-1'}`}>
       <div className="navbar-container">
-        <Logo height={isMobile ? 26 : 32} />
+        <a href="/" className="flex items-center gap-2.5"><Logo size={isMobile ? 26 : 28} priority /><span className="text-sm font-medium tracking-tight text-black">Framr</span></a>
         
         {/* Desktop links */}
         <ul className="navbar-links hidden md:flex items-center">
