@@ -56,6 +56,17 @@ export default function App() {
             </motion.h1>
           </div>
 
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.6 }}
+            className="mt-2 text-lg text-neutral-500 font-medium max-w-xl mx-auto"
+            id="hero-subhead"
+          >
+            Framr is the multi-agent AI platform that turns ideas into action.
+          </motion.p>
+
           <div className="w-full max-w-2xl mx-auto -mt-2">
             <PromptBar />
           </div>
