@@ -28,7 +28,12 @@ export default function App() {
         />
 
         <div className="max-w-4xl mx-auto text-center relative z-10 w-full px-6 flex flex-col items-center gap-6 md:gap-8">
-          <p className="mb-6 text-xs uppercase tracking-wide text-neutral-500">⚡ 12,000+ frames shipped this week</p>
+          <p className="mb-6 inline-flex items-center gap-2 text-xs uppercase tracking-wide text-neutral-500">
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 text-black" fill="currentColor" aria-hidden="true">
+              <path d="M13 2 5 13h6l-1 9 9-13h-6z" />
+            </svg>
+            <span>12,000+ frames shipped this week</span>
+          </p>
 
           <div className="relative">
             <motion.h1
