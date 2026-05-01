@@ -1,25 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import OpenAI from 'openai';
 
-export const runtime = 'nodejs';
+export const runtime = 'edge';
 
 const SYSTEM_PROMPT = `You are Framr Assistant — the in-product guide for Framr, a multi-agent AI platform.
-
-About Framr:
-- Framr lets users build, run, and orchestrate multiple AI agents that work together to perform real tasks and automate workflows.
-- Framr is NOT a design tool. It does not generate frames, mockups, or UI designs.
-- Users come to Framr to create agents, connect tools, and ship automations.
-
-Your role:
-- Guide users on how to use Framr: creating agents, connecting integrations, configuring workflows, debugging runs, understanding pricing and features.
-- Be concise, friendly, and practical. Prefer short answers with clear next steps.
-- If asked about design/frame generation, gently clarify: "Framr is a multi-agent platform — it orchestrates AI agents, not visual designs."
-- If asked something fully unrelated, redirect kindly back to Framr.`;
-
-const client = new OpenAI({
-  apiKey: process.env.NVIDIA_NIM_API_KEY,
-  baseURL: process.env.NVIDIA_NIM_BASE_URL ?? 'https://integrate.api.nvidia.com/v1',
-});
+Framr lets users build, run, and orchestrate multiple AI agents to automate real tasks and workflows.
+Framr is not a design tool and does not generate frames or UI mockups.
+Be concise, practical, and helpful. Guide users on agents, integrations, workflows, debugging, features, and pricing.`;
 
 export async function POST(req: NextRequest) {
   try {
@@ -29,42 +15,47 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'prompt or messages required' }, { status: 400 });
     }
 
-    const chatMessages =
-      messages ??
-      [
-        { role: 'system', content: SYSTEM_PROMPT },
-        { role: 'user', content: prompt },
-      ];
+    const apiKey = process.env.NVIDIA_NIM_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json({ error: 'Missing NVIDIA_NIM_API_KEY' }, { status: 500 });
+    }
 
-    const stream = await client.chat.completions.create({
-      model: process.env.NVIDIA_NIM_MODEL ?? 'openai/gpt-oss-120b',
-      messages: Array.isArray(chatMessages) ? chatMessages : [{ role: 'user', content: String(prompt) }],
-      temperature: 0.7,
-      top_p: 0.95,
-      max_tokens: 2048,
-      stream: true,
-    });
+    const model = process.env.NVIDIA_NIM_MODEL ?? 'openai/gpt-oss-120b';
+    const baseURL = process.env.NVIDIA_NIM_BASE_URL ?? 'https://integrate.api.nvidia.com/v1';
 
-    const encoder = new TextEncoder();
-    const readable = new ReadableStream({
-      async start(controller) {
-        try {
-          for await (const chunk of stream) {
-            const token = chunk.choices?.[0]?.delta?.content ?? '';
-            if (token) controller.enqueue(encoder.encode(token));
-          }
-          controller.close();
-        } catch (error) {
-          controller.error(error);
-        }
-      },
-    });
+    const chatMessages = Array.isArray(messages)
+      ? messages
+      : [
+          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'user', content: String(prompt ?? '') },
+        ];
 
-    return new Response(readable, {
+    const upstream = await fetch(`${baseURL}/chat/completions`, {
+      method: 'POST',
       headers: {
-        'Content-Type': 'text/plain; charset=utf-8',
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model,
+        messages: chatMessages,
+        temperature: 0.7,
+        top_p: 0.95,
+        max_tokens: 1024,
+        stream: true,
+      }),
+    });
+
+    if (!upstream.ok || !upstream.body) {
+      const text = await upstream.text();
+      return NextResponse.json({ error: text || 'Upstream request failed' }, { status: upstream.status || 500 });
+    }
+
+    return new Response(upstream.body, {
+      headers: {
+        'Content-Type': 'text/event-stream; charset=utf-8',
         'Cache-Control': 'no-cache, no-transform',
-        'X-Accel-Buffering': 'no',
+        Connection: 'keep-alive',
       },
     });
   } catch (err: any) {
