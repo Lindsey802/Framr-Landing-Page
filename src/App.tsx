@@ -51,23 +51,9 @@ export default function App() {
             </motion.h1>
           </div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.6 }}
-            className="mt-5 text-lg text-neutral-500 font-medium max-w-xl mx-auto"
-            id="hero-subhead"
-          >
-            Framr is the AI design copilot that turns ideas into frames.
-          </motion.p>
-
-          <div className="w-full max-w-2xl mx-auto">
+          <div className="w-full max-w-2xl mx-auto -mt-2">
             <PromptBar />
           </div>
-
-          <a className="mt-2 text-sm text-neutral-500 underline-offset-4 transition-colors hover:text-neutral-900" id="cta-row" href="/demo">
-            Or book a demo →
-          </a>
         </div>
       </section>
 

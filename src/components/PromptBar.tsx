@@ -67,7 +67,7 @@ export function PromptBar() {
       <div className="hidden" />
       <div className="hidden" />
       
-      <div className={`relative bg-white border border-[#E5E7EB] rounded-2xl p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(0,0,0,0.06)] transition-all duration-200 ${isFocused ? 'border-neutral-900 ring-4 ring-black/5' : 'border-[#E5E7EB]'}`}>
+      <div className={`relative bg-white border border-[#E5E7EB] rounded-3xl p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_rgba(0,0,0,0.06)] transition-all duration-200 ${isFocused ? 'border-neutral-900 ring-4 ring-black/5' : 'border-[#E5E7EB]'}`}>
         <div className="relative">
           <textarea
             ref={textareaRef}
@@ -134,7 +134,7 @@ export function PromptBar() {
                   initial={{ opacity: 0, y: 10, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                  className="absolute bottom-full right-0 mb-2 w-56 bg-white border border-zinc-200 rounded-2xl shadow-2xl overflow-hidden z-50 p-1"
+                  className="absolute bottom-full right-0 mb-2 w-56 bg-white border border-zinc-200 rounded-3xl shadow-2xl overflow-hidden z-50 p-1"
                 >
                   {models.map((model) => (
                     <button
