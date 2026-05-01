@@ -13,12 +13,10 @@ import { FloatingHelpChat } from './components/FloatingHelpChat';
 export default function App() {
   return (
     <div className="min-h-screen bg-white selection:bg-sky-100 selection:text-sky-900 overflow-x-hidden" id="app-root">
+      <Navbar />
+
       {/* Hero Section */}
       <section className="relative flex min-h-[600px] h-screen w-full flex-col items-center justify-center overflow-hidden bg-white pt-24 md:pt-32 md:h-screen">
-        <div className="absolute top-0 left-0 right-0 z-20">
-          <Navbar />
-        </div>
-
         {/* Background patterns */}
         <motion.div
           initial={{ opacity: 0 }}
