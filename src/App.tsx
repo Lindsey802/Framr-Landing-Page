@@ -16,7 +16,7 @@ export default function App() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative flex min-h-[600px] h-screen w-full flex-col items-center justify-center overflow-hidden bg-white pt-24 md:pt-32 md:h-screen">
+      <section className="relative flex h-[calc(100vh-72px)] min-h-[620px] w-full flex-col items-center justify-center overflow-hidden bg-white">
         {/* Background patterns */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -25,7 +25,7 @@ export default function App() {
           className="absolute inset-0 bg-grid pointer-events-none z-0 [mask-image:radial-gradient(ellipse_80%_60%_at_50%_40%,#000_40%,transparent_100%)]"
         />
 
-        <div className="max-w-4xl mx-auto text-center relative z-10 w-full px-6 flex flex-col items-center gap-6 md:gap-8">
+        <div className="max-w-4xl mx-auto text-center relative z-10 w-full px-6 flex flex-col items-center gap-4 md:gap-6">
           <p className="mb-6 inline-flex items-center gap-2 text-xs uppercase tracking-wide text-neutral-500">
             <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 text-black" fill="currentColor" aria-hidden="true">
               <path d="M13 2 5 13h6l-1 9 9-13h-6z" />
@@ -65,7 +65,7 @@ export default function App() {
             Framr is the multi-agent AI platform that turns ideas into action.
           </motion.p>
 
-          <div className="w-full max-w-2xl mx-auto -mt-6">
+          <div className="w-full max-w-2xl mx-auto -mt-4">
             <PromptBar />
           </div>
         </div>
